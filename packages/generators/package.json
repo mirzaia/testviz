@@ -8,8 +8,12 @@
   "dependencies": {
     "@testviz/core": "file:../core"
   },
+  "devDependencies": {
+    "vitest": "^4.1.10"
+  },
   "scripts": {
     "build": "npm run typecheck",
+    "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   }
 }
