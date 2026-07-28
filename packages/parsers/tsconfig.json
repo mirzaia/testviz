@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@testviz/core": ["../core/src"]
+    }
+  },
+  "include": ["src"]
+}
