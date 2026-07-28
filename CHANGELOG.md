@@ -2,6 +2,13 @@
 
 All notable changes to TestViz will be documented in this file.
 
+## [1.0.1]
+
+### Added
+- Agent automation infrastructure for PRs and Changelogs using `.codex` rules and skills.
+- RTK integration for token-optimized shell commands.
+- Standardized templates for technical PR summaries and project changelogs.
+
 ## [1.0.0] - 2026-07-28
 
 Initial development release of TestViz.
