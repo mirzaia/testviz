@@ -10,6 +10,7 @@
   },
   "scripts": {
     "build": "npm run typecheck",
+    "test": "npm run typecheck",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   }
 }

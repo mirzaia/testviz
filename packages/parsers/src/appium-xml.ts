@@ -1,10 +1,12 @@
 import { parseJunitXml } from "./junit-xml";
+import type { TestRun } from "@testviz/core";
 
-export function parseAppiumXml(xml: string, source = "local") {
+export function parseAppiumXml(xml: string, source = "local"): TestRun {
+  const run = parseJunitXml(xml, source);
   return {
-    ...parseJunitXml(xml, source),
+    ...run,
     metadata: {
-      ...parseJunitXml(xml, source).metadata,
+      ...run.metadata,
       tool: "appium",
       framework: "Appium",
     },

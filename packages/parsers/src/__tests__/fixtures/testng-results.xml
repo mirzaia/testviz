@@ -1,0 +1,9 @@
+<testng-results ignored="1" total="2" failed="0" passed="1" skipped="1">
+  <suite name="MobileSuite">
+    <test name="AppTests">
+      <class name="demo.MobileTest">
+        <test-method status="PASS" name="shouldLaunchApp" duration-ms="55" />
+      </class>
+    </test>
+  </suite>
+</testng-results>

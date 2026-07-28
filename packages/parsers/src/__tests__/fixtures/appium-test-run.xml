@@ -1,0 +1,5 @@
+<ns:test-run xmlns:ns="http://example.com/appium" name="Appium Run">
+  <testsuite name="Appium Suite" tests="1" failures="0" errors="0" skipped="0" time="0.09">
+    <testcase classname="demo.AppiumTest" name="shouldOpenApp" time="0.09" />
+  </testsuite>
+</ns:test-run>

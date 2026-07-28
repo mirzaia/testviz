@@ -1,0 +1,6 @@
+<testsuite name="Surefire Suite" tests="2" failures="0" errors="1" skipped="0" time="0.10">
+  <testcase classname="demo.ApiTest" name="shouldHitEndpoint" time="0.03" />
+  <testcase classname="demo.ApiTest" name="shouldHandleServerError" time="0.07">
+    <error message="Socket timeout">Request timed out</error>
+  </testcase>
+</testsuite>

@@ -1,0 +1,9 @@
+<testsuite name="LoginSuite" tests="3" failures="1" errors="0" skipped="1" time="0.18" timestamp="2026-07-28T00:00:00Z">
+  <testcase classname="demo.LoginTest" name="shouldLogin" time="0.04" />
+  <testcase classname="demo.LoginTest" name="shouldRejectInvalidUser" time="0.08">
+    <failure message="Assertion failed">Expected error message</failure>
+  </testcase>
+  <testcase classname="demo.LoginTest" name="shouldSkipWhenDisabled" time="0.06">
+    <skipped message="Feature flag off" />
+  </testcase>
+</testsuite>
