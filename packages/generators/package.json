@@ -6,7 +6,9 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "dependencies": {
-    "@testviz/core": "file:../core"
+    "@testviz/core": "file:../core",
+    "docx": "^9.5.1",
+    "pptxgenjs": "^4.0.1"
   },
   "devDependencies": {
     "vitest": "^4.1.10"

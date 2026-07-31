@@ -5,15 +5,19 @@ export function generateFlowchart(run: TestRun): string {
   let previous = "B";
   run.suites.forEach((suite, suiteIndex) => {
     const suiteNode = `S${suiteIndex}`;
-    lines.push(`  ${suiteNode}[${suite.name}]`);
+    lines.push(`  ${suiteNode}["${escapeLabel(suite.name)}"]`);
     lines.push(`  ${previous} --> ${suiteNode}`);
     previous = suiteNode;
     suite.tests.forEach((test, testIndex) => {
       const caseNode = `C${suiteIndex}_${testIndex}`;
-      lines.push(`  ${caseNode}[${test.name} (${test.status})]`);
+      lines.push(`  ${caseNode}["${escapeLabel(`${test.name} (${test.status})`)}"]`);
       lines.push(`  ${suiteNode} --> ${caseNode}`);
     });
   });
   lines.push(`  ${previous} --> Z[Done]`);
   return lines.join("\n");
+}
+
+function escapeLabel(value: string): string {
+  return value.replace(/"/g, "#quot;").replace(/[\r\n]+/g, " ");
 }
