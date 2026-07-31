@@ -8,6 +8,17 @@ All notable changes to TestViz will be documented in this file.
 - Agent automation infrastructure for PRs and Changelogs using `.codex` rules and skills.
 - RTK integration for token-optimized shell commands.
 - Standardized templates for technical PR summaries and project changelogs.
+- CLI generation for Mermaid, SVG, PNG, PPTX, and DOCX outputs.
+- Table visualization support in the web UI.
+- ISTQB DOCX report and PPTX slide generators.
+
+### Changed
+
+- Updated generator interfaces, flowchart rendering, web UI components, styles, README usage, and dependency metadata.
+
+### Removed
+
+- Removed legacy Codex hooks, rules, and prepare-release formatting files.
 
 ## [1.0.0] - 2026-07-28
 
@@ -57,4 +68,3 @@ Initial development release of TestViz.
 - `npm install`
 - `npm test`
 - `npm run build`
-

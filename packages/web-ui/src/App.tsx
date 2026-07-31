@@ -5,6 +5,7 @@ import { generateFlowchart, generateGraph, generateMindmap } from "@testviz/gene
 import { ExportPanel } from "./components/ExportPanel";
 import { MermaidView } from "./components/MermaidView";
 import { StatCard } from "./components/StatCards";
+import { TableView } from "./components/TableView";
 
 const sampleXml = `<testsuite name="Example Suite" tests="2" failures="1" errors="0" skipped="0" time="0.12">
   <testcase classname="demo.LoginTest" name="shouldLogin" time="0.05" />
@@ -15,7 +16,7 @@ const sampleXml = `<testsuite name="Example Suite" tests="2" failures="1" errors
 
 export default function App() {
   const [run, setRun] = useState<TestRun>(() => detectAndParse(sampleXml));
-  const [tab, setTab] = useState<"mindmap" | "graph" | "flowchart">("mindmap");
+  const [tab, setTab] = useState<"mindmap" | "graph" | "flowchart" | "table">("mindmap");
   const [isDragging, setIsDragging] = useState(false);
   const [fileName, setFileName] = useState("sample.xml");
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -163,13 +164,13 @@ export default function App() {
             <StatCard label="Errors" value={summary.errors} accent="violet" />
           </div>
           <div className="tabs">
-            {(["mindmap", "graph", "flowchart"] as const).map((value) => (
+            {(["mindmap", "graph", "flowchart", "table"] as const).map((value) => (
               <button key={value} className={value === tab ? "tab active" : "tab"} onClick={() => setTab(value)}>
                 {value}
               </button>
             ))}
           </div>
-          <MermaidView diagram={mermaid} />
+          {tab === "table" ? <TableView run={run} /> : <MermaidView diagram={mermaid} />}
           <div className="insight-grid">
             <div className="insight-card">
               <h3>Duration</h3>
@@ -184,7 +185,7 @@ export default function App() {
               <p>{summary.longest} ms</p>
             </div>
           </div>
-          <table className="results">
+          <table className="results suite-results">
             <thead>
               <tr>
                 <th>Suite</th>
