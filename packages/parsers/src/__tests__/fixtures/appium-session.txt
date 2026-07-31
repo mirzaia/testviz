@@ -1,0 +1,14 @@
+[Appium] Welcome to Appium v2.19.0
+[Appium] Appium REST http interface listener started on http://0.0.0.0:4723
+[HTTP] --> POST /wd/hub/session {"capabilities":{"firstMatch":[{"appium:udid":"DEVICE001","appium:automationName":"UiAutomator2","platformName":"ANDROID","appium:appActivity":"com.example.app.MainActivity","appium:app":"/tmp/example.apk"}]}}
+[AppiumDriver@abcd] Appium v2.19.0 creating new AndroidUiautomator2Driver (v2.34.2) session
+[aaaa1111][AndroidUiautomator2Driver@ef01] Session created with session id: aaaa1111-bbbb-cccc-dddd-eeeeffff0000
+[aaaa1111][AppiumDriver@abcd] New AndroidUiautomator2Driver session created successfully, session aaaa1111-bbbb-cccc-dddd-eeeeffff0000 added to master session list
+[aaaa1111][HTTP] <-- POST /wd/hub/session 200 1200 ms - 512
+[aaaa1111][HTTP] --> POST /wd/hub/session/aaaa1111-bbbb-cccc-dddd-eeeeffff0000/element {"using":"xpath","value":"//android.view.View[@resource-id='login_field']"}
+[aaaa1111][HTTP] <-- POST /wd/hub/session/aaaa1111-bbbb-cccc-dddd-eeeeffff0000/element 200 100 ms - 80
+[aaaa1111][HTTP] --> POST /wd/hub/session/aaaa1111-bbbb-cccc-dddd-eeeeffff0000/element {"using":"id","value":"missing"}
+[aaaa1111][W3C] Matched W3C error code 'no such element' to NoSuchElementError
+[aaaa1111][HTTP] <-- POST /wd/hub/session/aaaa1111-bbbb-cccc-dddd-eeeeffff0000/element 404 50 ms - 120
+[aaaa1111][HTTP] --> POST /wd/hub/session/aaaa1111-bbbb-cccc-dddd-eeeeffff0000/element {"using":"id","value":"home_panel"}
+[aaaa1111][HTTP] <-- POST /wd/hub/session/aaaa1111-bbbb-cccc-dddd-eeeeffff0000/element 200 90 ms - 80

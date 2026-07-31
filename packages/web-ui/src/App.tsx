@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import type { TestRun } from "@testviz/core";
-import { detectAndParse } from "@testviz/parsers";
+import { detectAndParse, detectAndParseAsync } from "@testviz/parsers";
 import { generateFlowchart, generateGraph, generateMindmap } from "@testviz/generators";
 import { ExportPanel } from "./components/ExportPanel";
 import { MermaidView } from "./components/MermaidView";
@@ -14,11 +14,16 @@ const sampleXml = `<testsuite name="Example Suite" tests="2" failures="1" errors
   </testcase>
 </testsuite>`;
 
+const ACCEPTED =
+  ".xml,.txt,.log,.zip,text/xml,application/xml,text/plain,application/zip,application/x-zip-compressed";
+
 export default function App() {
   const [run, setRun] = useState<TestRun>(() => detectAndParse(sampleXml));
   const [tab, setTab] = useState<"mindmap" | "graph" | "flowchart" | "table">("mindmap");
   const [isDragging, setIsDragging] = useState(false);
   const [fileName, setFileName] = useState("sample.xml");
+  const [parseError, setParseError] = useState<string | null>(null);
+  const [isParsing, setIsParsing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const mermaid = useMemo(() => {
     if (tab === "graph") return generateGraph(run);
@@ -61,15 +66,35 @@ export default function App() {
     [run]
   );
 
-  function loadXml(text: string, name = "upload.xml") {
-    setRun(detectAndParse(text, "local", name));
-    setFileName(name);
+  async function loadFile(input: string | ArrayBuffer, name = "upload.xml") {
+    setIsParsing(true);
+    setParseError(null);
+    try {
+      const next = await detectAndParseAsync(input, "local", name);
+      setRun(next);
+      setFileName(name);
+    } catch (error) {
+      setParseError(error instanceof Error ? error.message : String(error));
+    } finally {
+      setIsParsing(false);
+    }
+  }
+
+  function loadSample() {
+    setParseError(null);
+    setRun(detectAndParse(sampleXml));
+    setFileName("sample.xml");
   }
 
   function handleFiles(files: FileList | null) {
     const file = files?.[0];
     if (!file) return;
-    file.text().then((text) => loadXml(text, file.name));
+    const lowered = file.name.toLowerCase();
+    if (lowered.endsWith(".zip") || file.type === "application/zip" || file.type === "application/x-zip-compressed") {
+      void file.arrayBuffer().then((buffer) => loadFile(buffer, file.name));
+      return;
+    }
+    void file.text().then((text) => loadFile(text, file.name));
   }
 
   return (
@@ -78,7 +103,9 @@ export default function App() {
         <div className="hero-copy">
           <p className="eyebrow">TestViz</p>
           <h1>Upload test automation output and visualize it instantly.</h1>
-          <p className="lede">Parse JUnit-style XML, inspect results, and switch between Mermaid mind map, chart, and flowchart views.</p>
+          <p className="lede">
+            Drop JUnit XML, Allure ZIP reports, or IntelliJ / Appium text logs — then inspect results as mind maps, charts, flowcharts, or tables.
+          </p>
         </div>
         <div className="hero-badges">
           <span>{summary.tests} tests</span>
@@ -121,19 +148,20 @@ export default function App() {
             <input
               ref={fileInputRef}
               type="file"
-              accept=".xml,text/xml,application/xml"
-              onChange={async (event) => {
+              accept={ACCEPTED}
+              onChange={(event) => {
                 handleFiles(event.target.files);
               }}
             />
             <div>
-              <strong>Drop XML here</strong>
-              <p>or click to browse a file from your machine.</p>
-              <small>{fileName}</small>
+              <strong>Drop report or log here</strong>
+              <p>XML, Allure ZIP, or .txt / .log files from IntelliJ or Appium.</p>
+              <small>{isParsing ? "Parsing…" : fileName}</small>
             </div>
           </div>
+          {parseError ? <p className="parse-error">{parseError}</p> : null}
           <div className="action-row">
-            <button className="ghost" onClick={() => loadXml(sampleXml, "sample.xml")}>Load sample</button>
+            <button className="ghost" onClick={loadSample}>Load sample</button>
             <button
               className="ghost"
               onClick={() => navigator.clipboard?.writeText(JSON.stringify(run, null, 2))}
@@ -145,6 +173,7 @@ export default function App() {
             <span>Source: {run.metadata.source}</span>
             <span>Framework: {run.metadata.framework}</span>
             <span>Tool: {run.metadata.tool}</span>
+            <span>File: {fileName}</span>
           </div>
         </section>
         <section className="panel">
