@@ -5,3 +5,12 @@ node_modules/
 dist/
 .kilo
 .codex
+
+# Local sample reports/logs (may contain sensitive data)
+*_allure_test_reports.zip
+*_intellij_test_logs.txt
+*_appium_test_logs.txt
+*_j-unit_test_logs.xml
+*_j-unit_test_reports.xml
+repomix-output.xml
+sample_logs

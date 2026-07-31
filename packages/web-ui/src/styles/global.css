@@ -53,6 +53,7 @@ button, input { font: inherit; }
 .status.skipped { background: #fef3c7; color: #92400e; }
 .status.error { background: #f3e8ff; color: #6b21a8; }
 .file-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+.parse-error { margin: 12px 0 0; color: #fca5a5; font-size: 0.9rem; }
 .export-panel { margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(148, 163, 184, 0.16); }
 .export-panel p { color: #94a3b8; margin: 0; }
 @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }

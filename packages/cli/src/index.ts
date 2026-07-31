@@ -5,7 +5,8 @@ import { tmpdir } from "node:os";
 import { basename, extname, join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 import { Command } from "commander";
-import { detectAndParse } from "@testviz/parsers";
+import type { TestRun } from "@testviz/core";
+import { detectAndParseAsync } from "@testviz/parsers";
 import {
   generateCsv,
   generateFlowchart,
@@ -27,8 +28,8 @@ program
   .command("parse <input>")
   .description("Parse a report and print its normalized TestViz JSON")
   .option("-o, --output <file>", "Write JSON to a file")
-  .action((input, options) => {
-    const output = JSON.stringify(loadRun(input), null, 2);
+  .action(async (input, options) => {
+    const output = JSON.stringify(await loadRun(input), null, 2);
     writeText(output, options.output);
   });
 
@@ -39,7 +40,7 @@ program
   .option("-o, --output <file>", "Write output to a file")
   .option("-d, --diagram <type>", "Diagram type for SVG/PNG: mindmap, graph, or flowchart", "mindmap")
   .action(async (input, options) => {
-    const run = loadRun(input);
+    const run = await loadRun(input);
     const format = normalizeFormat(options.format);
     const outputPath = options.output ? resolve(process.cwd(), options.output) : defaultOutput(input, format);
 
@@ -66,9 +67,13 @@ program.parseAsync(process.argv).catch((error: unknown) => {
   process.exitCode = 1;
 });
 
-function loadRun(input: string) {
+async function loadRun(input: string): Promise<TestRun> {
   const path = resolve(process.cwd(), input);
-  return detectAndParse(readFileSync(path, "utf8"), "local", input);
+  const lowered = input.toLowerCase();
+  if (lowered.endsWith(".zip")) {
+    return detectAndParseAsync(readFileSync(path), "local", input);
+  }
+  return detectAndParseAsync(readFileSync(path, "utf8"), "local", input);
 }
 
 function writeText(output: string, path?: string) {
@@ -76,7 +81,7 @@ function writeText(output: string, path?: string) {
   else process.stdout.write(`${output}\n`);
 }
 
-function renderText(run: ReturnType<typeof loadRun>, format: TextFormat): string {
+function renderText(run: TestRun, format: TextFormat): string {
   switch (format) {
     case "graph": return generateGraph(run);
     case "flowchart": return generateFlowchart(run);
@@ -98,7 +103,7 @@ function normalizeDiagram(value: string): Exclude<TextFormat, "markdown" | "csv"
   throw new Error(`Unsupported diagram type: ${value}`);
 }
 
-function renderMermaid(run: ReturnType<typeof loadRun>, diagram: "mindmap" | "graph" | "flowchart", format: "svg" | "png", outputPath: string) {
+function renderMermaid(run: TestRun, diagram: "mindmap" | "graph" | "flowchart", format: "svg" | "png", outputPath: string) {
   const directory = mkdtempSync(join(tmpdir(), "testviz-"));
   const inputPath = join(directory, "diagram.mmd");
   try {

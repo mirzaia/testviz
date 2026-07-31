@@ -1,0 +1,18 @@
+12:00:00.000 INFO  c.example.r.TestRunner - main - First run of the test suite
+12:00:01.000 INFO  c.example.r.TestRunner - main - Local IDE run, executing all selected scenarios
+12:00:30.100 DEBUG c.example.g.CommonSteps - main - Assertion errors for scenario: Example Order Flow - Create And Confirm
+12:00:30.110 INFO  c.example.g.CommonSteps - main - Scenario Example Order Flow - Create And Confirm execution status: FAILED
+12:00:30.200 ERROR c.example.r.FailedReporter - main - Execution failure for scenario: Example Order Flow - Create And Confirm error : [ExampleHttpException still occurred on method 'create order' after trying 3 times.]
+12:00:30.210 INFO  c.example.l.AllureListener - main - Remove ignored after step
+
+Failed scenarios:
+file:///tmp/example-project/build/resources/test/cucumber/feature/example/order-flow.feature:5 # Example Order Flow - Create And Confirm
+
+1 Scenarios (1 failed)
+10 Steps (1 failed, 9 skipped)
+0m34.833s
+
+12:00:30.300 INFO  c.example.r.TestRunner - main - Test still has error after re-run 1 times
+> Task :runCucumber FAILED
+BUILD FAILED in 40s
+12.00.31: Execution finished 'clean runCucumber allureReport --continue -Ptags="@smoke"'.

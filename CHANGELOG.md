@@ -11,10 +11,16 @@ All notable changes to TestViz will be documented in this file.
 - CLI generation for Mermaid, SVG, PNG, PPTX, and DOCX outputs.
 - Table visualization support in the web UI.
 - ISTQB DOCX report and PPTX slide generators.
+- Allure ZIP parsing support in `packages/parsers`, including async detection for binary report input.
+- IntelliJ/Cucumber log parsing support in `packages/parsers`.
+- Appium log parsing support in `packages/parsers`.
+- ZIP ingestion support in the CLI and web UI upload flows.
+- Allure ZIP, IntelliJ, and Appium parser fixtures and tests.
 
 ### Changed
 
 - Updated generator interfaces, flowchart rendering, web UI components, styles, README usage, and dependency metadata.
+- Updated parser detection, CLI input loading, package dependencies, and web UI upload handling for async binary report parsing.
 
 ### Removed
 
